@@ -1,5 +1,6 @@
 #include <iostream>
 #include <queue>
+#include <stack>
 using namespace std;
 
 struct EdgeNode{
@@ -18,7 +19,7 @@ class Graph{
     int v;
     int * visited;
     queue<int>Q;
-    
+    stack<int>S;
     
     public:
     Graph(int v){
@@ -56,6 +57,7 @@ class Graph{
         cout<<"1. Add to graph"<<endl;
         cout<<"2.Display from graph"<<endl;
         cout<<"3.BFS"<<endl;
+        cout<<"4. DFS"<<endl;
         
     }
     
@@ -74,6 +76,31 @@ class Graph{
                 }
                 neighbor = neighbor->next;
             }
+        }
+        cout<<endl;
+    }
+    
+    void DFS(int start){
+        for(int i=0; i<v; i++){
+            visited[i] =0;
+        }
+        S.push(start);
+        cout<<"DFS started at "<<start<<":";
+        while(!S.empty()){
+            int current = S.top();
+            S.pop();
+            if(!visited[current]){
+                cout<<current<<" ";
+                visited[current] = 1;
+            }
+        
+        EdgeNode * neighbor = l[current];
+        while(neighbor != NULL){
+            if(!visited[neighbor->vertex]){
+                S.push(neighbor->vertex);
+            }
+            neighbor = neighbor->next;
+        }
         }
         cout<<endl;
     }
@@ -104,6 +131,10 @@ int main(){
             cout<<"Enter value to start"<<endl;
             cin>>start;
                  g.BFS(start);
+            case 4:
+            cout<<"Enter value of start"<<endl;
+            cin>>start;
+                    g.DFS(start);
             default:
              "invalid";
         }
